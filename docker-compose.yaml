@@ -1,0 +1,20 @@
+version: "3"
+services:
+  c1: 
+    image: ubuntu:latest
+    entrypoint: ["tail","-f","/dev/null"]
+    network_mode: "service:gluetun"
+  gluetun:
+    image: qmcgaw/gluetun
+    cap_add:
+      - NET_ADMIN
+    environment:
+      - VPN_SERVICE_PROVIDER=mullvad
+      - VPN_TYPE=wireguard
+      - WIREGUARD_PRIVATE_KEY=${WIREGUARD_PRIVATE_KEY}
+      - WIREGUARD_ADDRESSES=10.67.87.110/32
+      - SERVER_CITIES=Amsterdam
+    # network_mode: "gluetun"
+networks: 
+  gluetun:
+    driver: gluetun
